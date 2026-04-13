@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --ink: #2d2d2b;
+  --sub: #8a8680;
+  --faint: #f0ede6;
+  --border: rgba(45,45,43,0.09);
+  --green: #4a7c5e;
+  --green-soft: #eaf2ed;
+  --green-border: #c2dccb;
+  --tea: #9b6a3a;
+  --tea-soft: #fdf0e3;
+  --tea-border: #e8cda8;
+}
+
+body {
+  background: var(--bg);
+  font-family: 'BIZ UDPGothic', sans-serif;
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── Top bar ─────────────────────────────────────────────────────────────── */
+
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.75rem; min-height: 52px;
+  position: sticky; top: 0; z-index: 10;
+}
+.topbar-logo { font-size: 15px; font-weight: 500; }
+.topbar-logo span { color: var(--sub); font-weight: 300; }
+
+/* ── Lang toggle ─────────────────────────────────────────────────────────── */
+
+.lang-row { display: flex; flex-wrap: wrap; gap: 3px; }
+.lang-btn {
+  background: none; border: 1px solid transparent; cursor: pointer;
+  font-family: 'BIZ UDPGothic', sans-serif; font-size: 12px;
+  color: var(--sub); padding: 4px 10px; border-radius: 20px;
+  transition: all 0.15s;
+}
+.lang-btn.active { color: var(--ink); background: var(--faint); border-color: var(--border); }
+.lang-btn:hover { color: var(--ink); background: var(--faint); }
+
+/* ── Layout ──────────────────────────────────────────────────────────────── */
+
+.main { max-width: 640px; margin: 0 auto; padding: 3.5rem 1.75rem 5rem; }
+
+/* ── Hero ────────────────────────────────────────────────────────────────── */
+
+.hero { margin-bottom: 3rem; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center;
+  background: var(--faint); border: 1px solid var(--border);
+  border-radius: 20px; padding: 4px 12px;
+  font-size: 11px; color: var(--sub); letter-spacing: 0.06em;
+  margin-bottom: 1.25rem;
+}
+.hero-title {
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  font-weight: 500; line-height: 1.15;
+  letter-spacing: 0.01em; margin-bottom: 0.5rem;
+}
+.hero-title .dev { font-weight: 300; color: var(--sub); }
+.hero-pronounce {
+  display: inline-block; font-size: 12px; color: var(--sub);
+  letter-spacing: 0.08em; background: var(--faint);
+  border-radius: 6px; padding: 3px 10px; margin-bottom: 1.75rem;
+}
+.hero-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 1.25rem 1.5rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.hero-wish { font-size: 14px; line-height: 1.7; }
+.hero-nyaice { font-size: 13px; color: var(--green); letter-spacing: 0.02em; }
+
+/* ── Divider & section head ──────────────────────────────────────────────── */
+
+.divider { height: 1px; background: var(--border); margin: 2.5rem 0; }
+
+.section-head {
+  font-size: 11px; letter-spacing: 0.18em; color: var(--sub);
+  text-transform: uppercase; margin-bottom: 1rem;
+}
+
+/* ── Project list ────────────────────────────────────────────────────────── */
+
+.proj-list { display: flex; flex-direction: column; gap: 6px; }
+.proj-card {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.9rem 1.1rem;
+  text-decoration: none; color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  position: relative; overflow: visible;
+}
+.proj-card:hover { border-color: rgba(45,45,43,0.22); box-shadow: 0 2px 8px rgba(45,45,43,0.06); }
+.proj-left { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.proj-name-row { display: flex; align-items: center; gap: 8px; }
+.proj-name { font-size: 14px; font-weight: 500; }
+.proj-lang {
+  font-size: 11px; color: var(--sub);
+  background: var(--faint); border-radius: 5px; padding: 1px 7px;
+}
+.proj-desc { font-size: 13px; color: #6b6860; font-weight: 400; line-height: 1.5; margin-top: 2px; }
+
+/* ── Badge ───────────────────────────────────────────────────────────────── */
+
+.badge {
+  font-size: 11px; padding: 3px 10px; border-radius: 20px;
+  white-space: nowrap; flex-shrink: 0;
+  border: 1px solid var(--border); color: var(--sub); background: var(--faint);
+}
+.badge.wip { color: var(--green); background: var(--green-soft); border-color: var(--green-border); }
+.badge.star { color: var(--tea); background: var(--tea-soft); border-color: var(--tea-border); }
+
+/* ── Paw hover indicator ─────────────────────────────────────────────────── */
+
+.proj-paw {
+  font-size: 11px; color: var(--green);
+  opacity: 0; transition: opacity 0.18s, transform 0.18s;
+  transform: translateX(6px);
+  pointer-events: none; flex-shrink: 0;
+  position: absolute; right: 1rem; top: 50%; translate: 0 -50%;
+}
+.proj-card:hover .proj-paw { opacity: 0.65; transform: translateX(0); }
+
+/* ── Connect links ───────────────────────────────────────────────────────── */
+
+.links-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.link-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--sub);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 7px 14px;
+  text-decoration: none; transition: all 0.15s;
+}
+.link-chip:hover { color: var(--ink); border-color: rgba(45,45,43,0.25); background: var(--faint); }
+
+/* ── Milk tea button ─────────────────────────────────────────────────────── */
+
+@keyframes wobble {
+  0%,100% { transform: rotate(-2deg) scale(1.02); }
+  50%      { transform: rotate(2deg)  scale(1.05); }
+}
+
+.tea-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--tea);
+  background: var(--tea-soft); border: 1px solid var(--tea-border);
+  border-radius: 20px; padding: 7px 16px;
+  text-decoration: none; transition: background 0.15s;
+}
+.tea-btn:hover {
+  background: #f5e3c8;
+  animation: wobble 0.45s ease-in-out infinite;
+}
+
+/* ── Credits ─────────────────────────────────────────────────────────────── */
+
+.credit-list { display: flex; flex-direction: column; gap: 6px; }
+.credit-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.75rem 1.1rem;
+}
+.credit-tag {
+  font-size: 11px; color: var(--sub);
+  background: var(--faint); border-radius: 5px; padding: 2px 8px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.credit-name {
+  font-size: 13px; color: var(--ink); text-decoration: none;
+}
+.credit-name:hover { text-decoration: underline; color: var(--sub); }
+
+/* ── Thanks ──────────────────────────────────────────────────────────────── */
+
+.thanks {
+  text-align: center; font-size: 13px; color: var(--sub);
+  margin-top: 2.5rem; letter-spacing: 0.04em;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+
+.foot {
+  margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px; color: var(--sub); letter-spacing: 0.04em;
+}
+.foot a { color: var(--sub); text-decoration: none; }
+.foot a:hover { color: var(--ink); }
+
+/* ── Standalone lang bar (mobile only) ──────────────────────────────────── */
+
+.lang-fixed {
+  display: none;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────────── */
+
+@media (max-width: 540px) {
+  /* Logo topbar stays sticky — follows the user */
+  .topbar {
+    padding: 0.75rem 1.25rem;
+  }
+
+  /* Hide built-in lang row inside topbar */
+  .topbar .lang-row { display: none; }
+
+  /* Lang bar is static — sits below the logo and scrolls away */
+  .lang-fixed {
+    display: flex;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 1.25rem;
+  }
+
+  .lang-fixed .lang-row { flex-wrap: wrap; }
+
+  .lang-fixed .lang-btn {
+    font-size: 13px;
+    padding: 7px 13px;
+  }
+
+  .main { padding: 2rem 1.25rem 4rem; }
+
+  .foot { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
