@@ -1,3 +1,4 @@
+import { Fragment } from "preact";
 import { credits } from "../data/credits";
 import { LANGS } from "../data/i18n";
 
@@ -15,7 +16,18 @@ export function Credits() {
             target="_blank"
             rel="noreferrer"
           >
-            {c.name}
+            {c.ruby ? (
+              <ruby>
+                {c.ruby.map((seg, i) => (
+                  <Fragment key={i}>
+                    {seg.base}
+                    {seg.rt && <rt>{seg.rt}</rt>}
+                  </Fragment>
+                ))}
+              </ruby>
+            ) : (
+              c.name
+            )}
           </a>
         </div>
       ))}

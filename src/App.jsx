@@ -50,7 +50,12 @@ export default function App() {
         <ConnectLinks tr={tr} />
         <div className="divider" />
 
-        <div className="section-head">{tr.credits}</div>
+        <div className="section-head">
+          {tr.credits}
+          {tr.creditsNote && (
+            <span className="section-note"> ({tr.creditsNote})</span>
+          )}
+        </div>
         <Credits />
 
         <div className="thanks">{tr.thanks}</div>

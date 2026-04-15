@@ -17,6 +17,7 @@ export const i18n = {
     projects: "プロジェクト",
     connect: "リンク",
     credits: "クレジット",
+    creditsNote: "敬称略",
     thanks: "読んでいただきありがとうございます！",
     milktea: "Buy me a coffee",
     madeBy: "@nyanrus",

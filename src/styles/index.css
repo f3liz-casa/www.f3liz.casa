@@ -89,6 +89,9 @@ body {
   font-size: 11px; letter-spacing: 0.18em; color: var(--sub);
   text-transform: uppercase; margin-bottom: 1rem;
 }
+.section-note {
+  text-transform: none; letter-spacing: 0; opacity: 0.7;
+}
 
 /* ── Project list ────────────────────────────────────────────────────────── */
 
@@ -178,6 +181,11 @@ body {
 }
 .credit-name {
   font-size: 13px; color: var(--ink); text-decoration: none;
+}
+.credit-name rt {
+  font-size: 0.7em;
+  transform: translateY(0.4em);
+  display: inline-block;
 }
 .credit-name:hover { text-decoration: underline; color: var(--sub); }
 
