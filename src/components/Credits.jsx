@@ -1,20 +1,23 @@
 import { Fragment } from "preact";
 import { credits } from "../data/credits";
-import { LANGS } from "../data/i18n";
+import { LANGS, htmlLang } from "../data/i18n";
 
 const langLabel = Object.fromEntries(LANGS.map((l) => [l.key, l.label]));
 
 export function Credits() {
   return (
-    <div className="credit-list">
+    <ul className="credit-list" role="list">
       {credits.map((c) => (
-        <div key={c.lang} className="credit-item">
-          <span className="credit-tag">{langLabel[c.lang] ?? c.lang}</span>
+        <li key={c.lang} className="credit-item">
+          <span className="credit-tag" lang={htmlLang(c.lang)}>
+            {langLabel[c.lang] ?? c.lang}
+          </span>
           <a
             className="credit-name"
             href={c.url}
             target="_blank"
             rel="noreferrer"
+            lang={htmlLang(c.lang)}
           >
             {c.ruby ? (
               <ruby>
@@ -29,8 +32,8 @@ export function Credits() {
               c.name
             )}
           </a>
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

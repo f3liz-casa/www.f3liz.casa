@@ -3,9 +3,9 @@ import { LangToggle } from "./LangToggle";
 export function TopBar({ lang, setLang }) {
   return (
     <header className="topbar">
-      <div className="topbar-logo">
-        f3liz<span>.casa</span>
-      </div>
+      <a href="/" className="topbar-logo" aria-label="f3liz.casa — home">
+        f3liz<span className="suffix">.casa</span>
+      </a>
       <LangToggle lang={lang} setLang={setLang} />
     </header>
   );

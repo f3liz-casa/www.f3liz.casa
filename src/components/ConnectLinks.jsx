@@ -2,16 +2,30 @@ import { links } from "../data/links";
 
 export function ConnectLinks({ tr }) {
   return (
-    <div className="links-grid">
+    <ul className="links-grid" role="list">
       {links.map((l) => (
-        <a key={l.href} className="link-chip" href={l.href} target="_blank" rel="noreferrer">
-          {l.icon}
-          {l.label}
-        </a>
+        <li key={l.href}>
+          <a
+            className="link-chip"
+            href={l.href}
+            {...(/^https?:\/\//.test(l.href) && { target: "_blank", rel: "noreferrer" })}
+          >
+            <span aria-hidden="true">{l.icon}</span>
+            <span>{l.label}</span>
+          </a>
+        </li>
       ))}
-      <a className="tea-btn" href="https://buymeacoffee.com/nyanrus" target="_blank" rel="noreferrer">
-        🧋 {tr.milktea}
-      </a>
-    </div>
+      <li>
+        <a
+          className="tea-btn"
+          href="https://buymeacoffee.com/nyanrus"
+          target="_blank"
+          rel="noreferrer"
+          aria-label={tr.milkteaAria}
+        >
+          {tr.milktea}
+        </a>
+      </li>
+    </ul>
   );
 }

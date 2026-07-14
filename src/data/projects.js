@@ -3,11 +3,11 @@ export const projects = [
     name: "noraneko",
     lang: "CSS",
     href: "https://github.com/f3liz-casa/noraneko",
-    badge: { type: "star", label: "★ 86" },
+    badge: { type: "star", label: "starred" },
     desc: {
       en: "artifact-based testbed browser — base of Floorp",
       ja: "アーティファクトベースのテストブラウザ — Floorpのベース",
-"ja-x-morioka": "アーティファクトベースのテストブラウザ — まじFloorpのもとになったやつだべ",
+      "ja-x-morioka": "アーティファクトベースのテストブラウザ — まじFloorpのもとになったやつだべ",
       "ja-x-kansai": "アーティファクトベースのテストブラウザ — Floorpのもとになったらしいで",
       "ja-x-okayama": "アーティファクトベースのテストブラウザ — まじFloorpのもとになったやつ",
       "ja-x-oita": "アーティファクトベースのテストブラウザ — Floorpのもとになったやつ",
@@ -19,7 +19,7 @@ export const projects = [
   {
     name: "yukari-rubi",
     lang: "TypeScript",
-    href: "https://github.com/f3liz-casa/yukari-rubi",
+    href: "/yukari-rubi/",
     badge: null,
     desc: {
       en: "ruby text extension — sudachi.rs + xcdat",

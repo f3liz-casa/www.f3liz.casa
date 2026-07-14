@@ -1,5 +1,5 @@
-import { useState } from "preact/hooks";
-import { locale, t, LANGS } from "./data/i18n";
+import { useEffect, useState } from "preact/hooks";
+import { locale, LANGS, htmlLang } from "./data/i18n";
 import { TopBar } from "./components/TopBar";
 import { LangToggle } from "./components/LangToggle";
 import { Hero } from "./components/Hero";
@@ -27,6 +27,10 @@ export default function App() {
   const [lang, setLangState] = useState(getLangFromURL);
   const tr = locale(lang);
 
+  useEffect(() => {
+    document.documentElement.lang = htmlLang(lang);
+  }, [lang]);
+
   function setLang(newLang) {
     history.replaceState(null, "", "?lang=" + newLang);
     setLangState(newLang);
@@ -38,27 +42,33 @@ export default function App() {
       <div className="lang-fixed">
         <LangToggle lang={lang} setLang={setLang} />
       </div>
+
       <main className="main">
-        <Hero tr={tr} />
-        <div className="divider" />
+        <section className="section" aria-labelledby="hero-heading">
+          <Hero tr={tr} headingId="hero-heading" />
+        </section>
 
-        <div className="section-head">{tr.projects}</div>
-        <ProjectList lang={lang} />
-        <div className="divider" />
+        <section className="section" aria-labelledby="projects-heading">
+          <h2 id="projects-heading" className="section-head">{tr.projects}</h2>
+          <ProjectList lang={lang} />
+        </section>
 
-        <div className="section-head">{tr.connect}</div>
-        <ConnectLinks tr={tr} />
-        <div className="divider" />
+        <section className="section" aria-labelledby="connect-heading">
+          <h2 id="connect-heading" className="section-head">{tr.connect}</h2>
+          <ConnectLinks tr={tr} />
+        </section>
 
-        <div className="section-head">
-          {tr.credits}
-          {tr.creditsNote && (
-            <span className="section-note"> ({tr.creditsNote})</span>
-          )}
-        </div>
-        <Credits />
+        <section className="section" aria-labelledby="credits-heading">
+          <h2 id="credits-heading" className="section-head">
+            {tr.credits}
+            {tr.creditsNote && (
+              <span className="section-note"> ({tr.creditsNote})</span>
+            )}
+          </h2>
+          <Credits />
+        </section>
 
-        <div className="thanks">{tr.thanks}</div>
+        <p className="thanks">{tr.thanks}</p>
 
         <footer className="foot">
           <span>f3liz.casa</span>
@@ -70,4 +80,3 @@ export default function App() {
     </div>
   );
 }
-

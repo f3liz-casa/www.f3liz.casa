@@ -1,17 +1,22 @@
-export function Hero({ tr }) {
+export function Hero({ tr, headingId }) {
   return (
     <div className="hero">
-      <div className="hero-eyebrow">{tr.eyebrow}</div>
-      <div className="hero-title">
-        f3liz<span className="dev">.casa</span>
-      </div>
-      <div>
-        <span className="hero-pronounce">/ felis /</span>
-      </div>
-      <div style={{ height: "1.5rem" }} />
+      <p className="hero-eyebrow">{tr.eyebrow}</p>
+      <h1 id={headingId} className="hero-title">
+        f3liz<span className="suffix">.casa</span>
+      </h1>
+      <p>
+        <span
+          className="hero-pronounce"
+          lang="la"
+          title="Latin for 'cat'"
+          aria-label="pronunciation: felis — Latin for cat"
+        >
+          /felis/
+        </span>
+      </p>
       <div className="hero-card">
-        <div className="hero-wish">{tr.wish}</div>
-        <div className="hero-nyaice">{tr.nyaice}</div>
+        <p className="hero-wish">{tr.wish}</p>
       </div>
     </div>
   );
