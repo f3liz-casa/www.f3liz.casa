@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;500;700&family=Nanum+Gothic:wght@400;700&family=Nunito+Sans:wght@400;600;700&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
@@ -27,7 +27,27 @@
   --duration:       180ms;
   --ease:           cubic-bezier(.2, .8, .2, 1);
 
-  --font-body: 'BIZ UDPGothic', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  /* Latin body face. html[lang] below adds the matching CJK face in front. */
+  --font-body: 'Nunito Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  /* CJK glyphs read larger than Latin at the same px — this compensates so
+     en/ja/ko body copy feels like the same size. Multiplies --text-* only,
+     never spacing or widths, so layout stays identical across languages. */
+  --type-scale: 1;
+  --text-2xs:  calc(11px * var(--type-scale));
+  --text-xs:   calc(12px * var(--type-scale));
+  --text-sm:   calc(13px * var(--type-scale));
+  --text-md:   calc(14px * var(--type-scale));
+  --text-base: calc(15px * var(--type-scale));
+}
+
+html[lang="ja"] {
+  --font-body: 'BIZ UDPGothic', 'Nunito Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --type-scale: .92;
+}
+html[lang="ko"] {
+  --font-body: 'Nanum Gothic', 'Nunito Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --type-scale: .96;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -71,7 +91,7 @@ body {
   background: var(--surface);
   color: var(--ink);
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: var(--text-base);
   line-height: 1.65;
   min-height: 100svh;
   text-rendering: optimizeLegibility;
@@ -125,6 +145,23 @@ button {
   font-weight: 400;
 }
 
+/* ── Site nav ──────────────────────────────────────────────────── */
+
+.site-nav {
+  display: flex;
+  gap: 1.25rem;
+}
+.site-nav a {
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+.site-nav a:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* ── Language toggle ───────────────────────────────────────────── */
 
 .lang-row {
@@ -133,7 +170,7 @@ button {
   gap: 2px;
 }
 .lang-btn {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--ink-muted);
   padding: 6px 12px;
   min-height: 32px;
@@ -182,7 +219,7 @@ button {
 .section:nth-of-type(4) { animation-delay: 210ms; }
 
 .section-head {
-  font-size: 12px;
+  font-size: var(--text-xs);
   letter-spacing: .16em;
   color: var(--ink-muted);
   text-transform: uppercase;
@@ -206,7 +243,7 @@ button {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 4px 12px;
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--ink-muted);
   letter-spacing: .04em;
   margin-bottom: 1.25rem;
@@ -224,7 +261,7 @@ button {
 }
 .hero-pronounce {
   display: inline-block;
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--ink-muted);
   letter-spacing: .08em;
   background: var(--surface-sunken);
@@ -240,7 +277,7 @@ button {
   padding: 1.25rem 1.5rem;
 }
 .hero-wish {
-  font-size: 15px;
+  font-size: var(--text-base);
   line-height: 1.7;
 }
 
@@ -250,6 +287,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  list-style: none;
 }
 .proj-card {
   position: relative;
@@ -283,7 +321,7 @@ button {
   right: 1rem;
   top: 50%;
   translate: 0 -50%;
-  font-size: 11px;
+  font-size: var(--text-2xs);
   color: var(--accent-ink);
   opacity: 0;
   transform: translateX(6px);
@@ -311,18 +349,18 @@ button {
   flex-wrap: wrap;
 }
 .proj-name {
-  font-size: 15px;
+  font-size: var(--text-base);
   font-weight: 500;
 }
 .proj-lang {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--ink-muted);
   background: var(--surface-sunken);
   border-radius: var(--radius-small);
   padding: 1px 7px;
 }
 .proj-desc {
-  font-size: 14px;
+  font-size: var(--text-md);
   color: var(--ink-muted);
   line-height: 1.55;
   margin-top: 2px;
@@ -331,7 +369,7 @@ button {
 /* ── Badge ─────────────────────────────────────────────────────── */
 
 .badge {
-  font-size: 12px;
+  font-size: var(--text-xs);
   padding: 3px 10px;
   border-radius: 999px;
   white-space: nowrap;
@@ -357,12 +395,13 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  list-style: none;
 }
 .link-chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--ink-muted);
   background: var(--surface-raised);
   border: 1px solid var(--line);
@@ -399,7 +438,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--warm-ink);
   background: var(--warm-soft);
   border: 1px solid var(--warm-line);
@@ -422,6 +461,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  list-style: none;
 }
 .credit-item {
   display: flex;
@@ -434,7 +474,7 @@ button {
   min-height: 44px;
 }
 .credit-tag {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--ink-muted);
   background: var(--surface-sunken);
   border-radius: var(--radius-small);
@@ -443,7 +483,7 @@ button {
   flex-shrink: 0;
 }
 .credit-name {
-  font-size: 14px;
+  font-size: var(--text-md);
   color: var(--ink);
   text-decoration: none;
 }
@@ -461,7 +501,7 @@ button {
 
 .thanks {
   text-align: center;
-  font-size: 14px;
+  font-size: var(--text-md);
   color: var(--ink-muted);
   margin-top: 3rem;
   letter-spacing: .02em;
@@ -475,7 +515,7 @@ button {
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--ink-muted);
 }
 .foot a { text-decoration: none; }
@@ -502,7 +542,7 @@ button {
   }
   .lang-fixed .lang-row { flex-wrap: wrap; }
   .lang-fixed .lang-btn {
-    font-size: 14px;
+    font-size: var(--text-md);
     padding: 8px 14px;
     min-height: 40px;
   }

@@ -8,6 +8,7 @@ export const i18n = {
     thanks: "Thanks for stopping by!",
     milktea: "share a milk tea!",
     milkteaAria: "Share a milk tea — support the author (opens external page)",
+    sectionNavAria: "Jump to a section",
     madeBy: "@nyanrus",
   },
   ja: {
@@ -20,6 +21,7 @@ export const i18n = {
     thanks: "読んでくれて、ありがとう！",
     milktea: "ミルクティ一杯ぶん！",
     milkteaAria: "ミルクティ一杯ぶん、応援する（外部ページが開きます）",
+    sectionNavAria: "セクションへ移動",
     madeBy: "@nyanrus",
   },
   "ja-x-morioka": {
@@ -80,6 +82,7 @@ export const i18n = {
     thanks: "읽어줘서, 고마워요!",
     milktea: "밀크티 한 잔, 고마워요!",
     milkteaAria: "밀크티 한 잔으로 응원하기 (외부 페이지가 열립니다)",
+    sectionNavAria: "섹션으로 이동",
     madeBy: "@nyanrus",
   },
   "ko-x-busan": {

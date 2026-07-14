@@ -38,7 +38,7 @@ export default function App() {
 
   return (
     <div className="page">
-      <TopBar lang={lang} setLang={setLang} />
+      <TopBar lang={lang} setLang={setLang} tr={tr} />
       <div className="lang-fixed">
         <LangToggle lang={lang} setLang={setLang} />
       </div>

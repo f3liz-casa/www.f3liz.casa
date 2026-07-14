@@ -13,25 +13,41 @@
 <style>
   :root {
     /* f3liz.casa tokens */
-    --paper: #f5f3ee;
-    --card: #ffffff;
+    color-scheme: light dark;
+    --surface: #f5f3ee;
+    --surface-raised: #ffffff;
     --ink: rgb(45, 45, 43);
     --ink-soft: #5b5b58;
-    --ink-faint: #8e8e88;
-    --rule: #e5e2da;
-    --chip-bg: #ececea;
-    --chip-ink: #6a6a66;
-    --accent: #d97a3c;
-    --accent-soft: #fdf1e6;
-    --accent-ink: #b85f24;
+    --ink-muted: #8e8e88;
+    --line: #e5e2da;
+    --surface-sunken: #ececea;
+    --warm: #d97a3c;
+    --warm-soft: #fdf1e6;
+    --warm-line: #f0d9bf;
+    --warm-ink: #b85f24;
     --wip-bg: #e8efe6;
     --wip-ink: #5d7a5a;
     --star-bg: #fdf1e6;
     --star-ink: #b85f24;
   }
 
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface: #16161a;
+      --surface-raised: #1d1d22;
+      --ink: #e8e6e0;
+      --ink-soft: #c2beb5;
+      --ink-muted: #9a968e;
+      --line: rgba(232, 230, 224, 0.12);
+      --surface-sunken: #232328;
+      --warm-soft: #2a2118;
+      --warm-line: #6b4a30;
+      --warm-ink: #e0a165;
+    }
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--paper); }
+  html, body { background: var(--surface); }
   body {
     color: var(--ink);
     font-family: "BIZ UDPGothic", "Nunito Sans", "Nanum Gothic", system-ui, sans-serif;
@@ -52,22 +68,22 @@
 
   /* topbar — sticky white surface, matches main page */
   .topbar {
-    background: var(--card);
-    border-bottom: 1px solid var(--rule);
+    background: var(--surface-raised);
+    border-bottom: 1px solid var(--line);
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 1.75rem; min-height: 52px;
     position: sticky; top: 0; z-index: 10;
   }
   .topbar-logo { font-size: 15px; font-weight: 500; white-space: nowrap; }
   .topbar-logo a { color: var(--ink); font-weight: 500; }
-  .topbar-logo a:hover { color: var(--accent-ink); }
-  .topbar-logo .slug { color: var(--ink-faint); font-weight: 300; }
+  .topbar-logo a:hover { color: var(--warm-ink); }
+  .topbar-logo .slug { color: var(--ink-muted); font-weight: 300; }
 
   .lang-row { display: flex; flex-wrap: wrap; gap: 3px; align-items: center; }
   .lang-btn {
     background: none; border: 1px solid transparent;
     padding: 4px 10px;
-    color: var(--ink-faint);
+    color: var(--ink-muted);
     font-family: 'BIZ UDPGothic', sans-serif;
     font-size: 12px;
     cursor: pointer;
@@ -75,11 +91,11 @@
     transition: all 0.15s;
     white-space: nowrap;
   }
-  .lang-btn:hover { color: var(--ink); background: var(--chip-bg); }
+  .lang-btn:hover { color: var(--ink); background: var(--surface-sunken); }
   .lang-btn[aria-pressed="true"] {
     color: var(--ink);
-    background: var(--chip-bg);
-    border-color: var(--rule);
+    background: var(--surface-sunken);
+    border-color: var(--line);
   }
 
   @media (max-width: 540px) {
@@ -93,8 +109,8 @@
   .hero { margin-bottom: 32px; }
   .hero-eyebrow {
     display: inline-block;
-    background: var(--chip-bg);
-    color: var(--chip-ink);
+    background: var(--surface-sunken);
+    color: var(--ink-muted);
     font-size: 12px;
     padding: 4px 12px;
     border-radius: 999px;
@@ -110,7 +126,7 @@
     margin-bottom: 12px;
   }
   .hero-title .ext {
-    font-weight: 400; color: var(--ink-faint);
+    font-weight: 400; color: var(--ink-muted);
   }
   .hero-logo {
     width: 56px; height: 56px;
@@ -118,8 +134,8 @@
   }
   .hero-pronounce {
     display: inline-block;
-    background: var(--chip-bg);
-    color: var(--chip-ink);
+    background: var(--surface-sunken);
+    color: var(--ink-muted);
     font-size: 13px;
     padding: 4px 12px;
     border-radius: 999px;
@@ -128,8 +144,8 @@
 
   /* card (white panels with hairline border) */
   .card {
-    background: var(--card);
-    border: 1px solid var(--rule);
+    background: var(--surface-raised);
+    border: 1px solid var(--line);
     border-radius: 12px;
     padding: 20px 22px;
   }
@@ -138,18 +154,18 @@
   .intro-card { margin-top: 28px; }
   .intro-card p { margin: 0 0 10px; color: var(--ink); }
   .intro-card p:last-child { margin-bottom: 0; }
-  .intro-card p.soft { color: var(--accent-ink); font-size: 14px; }
+  .intro-card p.soft { color: var(--warm-ink); font-size: 14px; }
 
   /* divider */
   .divider {
-    height: 1px; background: var(--rule);
+    height: 1px; background: var(--line);
     margin: 40px 0 28px;
   }
 
   /* section head */
   .section-head {
     font-size: 12px; letter-spacing: 0.18em;
-    color: var(--ink-faint);
+    color: var(--ink-muted);
     text-transform: uppercase;
     margin-bottom: 14px;
   }
@@ -173,8 +189,8 @@
 
   /* demo card with header bar */
   .demo {
-    background: var(--card);
-    border: 1px solid var(--rule);
+    background: var(--surface-raised);
+    border: 1px solid var(--line);
     border-radius: 12px;
     overflow: hidden;
     margin-top: 14px;
@@ -183,13 +199,13 @@
     display: flex; justify-content: space-between; align-items: center;
     gap: 12px;
     padding: 9px 16px;
-    background: #faf8f4;
-    border-bottom: 1px solid var(--rule);
+    background: var(--surface-sunken);
+    border-bottom: 1px solid var(--line);
     font-size: 12px;
-    color: var(--ink-faint);
+    color: var(--ink-muted);
     line-height: 1;
   }
-  .demo-bar .lang { color: var(--chip-ink); }
+  .demo-bar .lang { color: var(--ink-muted); }
   .demo-bar .note { font-style: italic; }
   .demo-body {
     padding: 22px 24px;
@@ -201,7 +217,7 @@
   ruby { ruby-position: over; }
   ruby rt {
     font-family: "BIZ UDPGothic", sans-serif;
-    color: var(--accent-ink);
+    color: var(--warm-ink);
     font-size: 0.55em;
     font-weight: 500;
     letter-spacing: 0.02em;
@@ -214,36 +230,36 @@
   }
   .chip {
     display: inline-flex; align-items: center; gap: 6px;
-    background: var(--card);
-    border: 1px solid var(--rule);
+    background: var(--surface-raised);
+    border: 1px solid var(--line);
     border-radius: 999px;
     padding: 6px 14px;
     font-size: 13px;
     color: var(--ink);
     transition: border-color 0.15s, color 0.15s;
   }
-  .chip:hover { border-color: var(--accent); color: var(--accent-ink); }
-  .chip svg { color: var(--ink-faint); flex-shrink: 0; }
+  .chip:hover { border-color: var(--warm); color: var(--warm-ink); }
+  .chip svg { color: var(--ink-muted); flex-shrink: 0; }
   .chip.tea {
-    background: var(--accent-soft);
-    border-color: #f0d9bf;
-    color: var(--accent-ink);
+    background: var(--warm-soft);
+    border-color: var(--warm-line);
+    color: var(--warm-ink);
   }
-  .chip.tea:hover { border-color: var(--accent); }
+  .chip.tea:hover { border-color: var(--warm); }
 
   /* footer */
   .foot {
     margin-top: 64px;
     display: flex; justify-content: space-between;
-    color: var(--ink-faint); font-size: 12px;
+    color: var(--ink-muted); font-size: 12px;
     letter-spacing: 0.04em;
   }
-  .foot a { color: var(--ink-faint); }
+  .foot a { color: var(--ink-muted); }
   .foot a:hover { color: var(--ink); }
 
   .thanks {
     text-align: center;
-    color: var(--ink-faint);
+    color: var(--ink-muted);
     font-size: 13px;
     margin-top: 36px;
   }

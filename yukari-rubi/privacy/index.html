@@ -13,21 +13,35 @@
 <style>
   :root {
     /* f3liz.casa tokens */
-    --paper: #f5f3ee;
-    --card: #ffffff;
+    color-scheme: light dark;
+    --surface: #f5f3ee;
+    --surface-raised: #ffffff;
     --ink: rgb(45, 45, 43);
     --ink-soft: #5b5b58;
-    --ink-faint: #8e8e88;
-    --rule: #e5e2da;
-    --chip-bg: #ececea;
-    --chip-ink: #6a6a66;
-    --accent: #d97a3c;
-    --accent-soft: #fdf1e6;
-    --accent-ink: #b85f24;
+    --ink-muted: #8e8e88;
+    --line: #e5e2da;
+    --surface-sunken: #ececea;
+    --warm: #d97a3c;
+    --warm-soft: #fdf1e6;
+    --warm-ink: #b85f24;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface: #16161a;
+      --surface-raised: #1d1d22;
+      --ink: #e8e6e0;
+      --ink-soft: #c2beb5;
+      --ink-muted: #9a968e;
+      --line: rgba(232, 230, 224, 0.12);
+      --surface-sunken: #232328;
+      --warm-soft: #2a2118;
+      --warm-ink: #e0a165;
+    }
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--paper); }
+  html, body { background: var(--surface); }
   body {
     color: var(--ink);
     font-family: "BIZ UDPGothic", "Nunito Sans", "Nanum Gothic", system-ui, sans-serif;
@@ -46,33 +60,33 @@
   a { color: inherit; text-decoration: none; }
 
   .topbar {
-    background: var(--card);
-    border-bottom: 1px solid var(--rule);
+    background: var(--surface-raised);
+    border-bottom: 1px solid var(--line);
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 1.75rem; min-height: 52px;
     position: sticky; top: 0; z-index: 10;
   }
   .topbar-logo { font-size: 15px; font-weight: 500; white-space: nowrap; }
   .topbar-logo a { color: var(--ink); font-weight: 500; }
-  .topbar-logo a:hover { color: var(--accent-ink); }
-  .topbar-logo .slug { color: var(--ink-faint); font-weight: 300; }
+  .topbar-logo a:hover { color: var(--warm-ink); }
+  .topbar-logo .slug { color: var(--ink-muted); font-weight: 300; }
 
   .lang-row { display: flex; flex-wrap: wrap; gap: 3px; align-items: center; }
   .lang-btn {
     background: none; border: 1px solid transparent;
     padding: 4px 10px;
-    color: var(--ink-faint);
+    color: var(--ink-muted);
     font-size: 12px;
     cursor: pointer;
     border-radius: 20px;
     transition: all 0.15s;
     white-space: nowrap;
   }
-  .lang-btn:hover { color: var(--ink); background: var(--chip-bg); }
+  .lang-btn:hover { color: var(--ink); background: var(--surface-sunken); }
   .lang-btn[aria-pressed="true"] {
     color: var(--ink);
-    background: var(--chip-bg);
-    border-color: var(--rule);
+    background: var(--surface-sunken);
+    border-color: var(--line);
   }
 
   @media (max-width: 540px) {
@@ -89,13 +103,13 @@
   }
   .updated {
     font-size: 13px;
-    color: var(--ink-faint);
+    color: var(--ink-muted);
     margin-bottom: 28px;
   }
 
   .card {
-    background: var(--card);
-    border: 1px solid var(--rule);
+    background: var(--surface-raised);
+    border: 1px solid var(--line);
     border-radius: 12px;
     padding: 20px 22px;
   }
@@ -103,13 +117,13 @@
   .card p:last-child { margin-bottom: 0; }
 
   .divider {
-    height: 1px; background: var(--rule);
+    height: 1px; background: var(--line);
     margin: 32px 0 24px;
   }
 
   .section-head {
     font-size: 12px; letter-spacing: 0.18em;
-    color: var(--ink-faint);
+    color: var(--ink-muted);
     text-transform: uppercase;
     margin-bottom: 14px;
   }
@@ -132,10 +146,10 @@
   .foot {
     margin-top: 56px;
     display: flex; justify-content: space-between;
-    color: var(--ink-faint); font-size: 12px;
+    color: var(--ink-muted); font-size: 12px;
     letter-spacing: 0.04em;
   }
-  .foot a { color: var(--ink-faint); }
+  .foot a { color: var(--ink-muted); }
   .foot a:hover { color: var(--ink); }
 </style>
 </head>
@@ -257,9 +271,9 @@
   <div class="section-head" data-l="ja">お問い合わせ</div>
   <div class="section-head" data-l="ko">문의</div>
   <div class="prose">
-    <p data-l="en">Open an issue on <a href="https://github.com/f3liz-casa/yukari-rubi" target="_blank" rel="noopener" style="color: var(--accent-ink);">GitHub</a>, or reach out on <a href="https://misskey.io/@nyanrus" target="_blank" rel="noopener" style="color: var(--accent-ink);">Misskey</a>.</p>
-    <p data-l="ja"><a href="https://github.com/f3liz-casa/yukari-rubi" target="_blank" rel="noopener" style="color: var(--accent-ink);">GitHub</a>にIssueを立てるか、<a href="https://misskey.io/@nyanrus" target="_blank" rel="noopener" style="color: var(--accent-ink);">Misskey</a>までご連絡ください。</p>
-    <p data-l="ko"><a href="https://github.com/f3liz-casa/yukari-rubi" target="_blank" rel="noopener" style="color: var(--accent-ink);">GitHub</a>에 이슈를 남기시거나, <a href="https://misskey.io/@nyanrus" target="_blank" rel="noopener" style="color: var(--accent-ink);">Misskey</a>로 연락해 주세요.</p>
+    <p data-l="en">Open an issue on <a href="https://github.com/f3liz-casa/yukari-rubi" target="_blank" rel="noopener" style="color: var(--warm-ink);">GitHub</a>, or reach out on <a href="https://misskey.io/@nyanrus" target="_blank" rel="noopener" style="color: var(--warm-ink);">Misskey</a>.</p>
+    <p data-l="ja"><a href="https://github.com/f3liz-casa/yukari-rubi" target="_blank" rel="noopener" style="color: var(--warm-ink);">GitHub</a>にIssueを立てるか、<a href="https://misskey.io/@nyanrus" target="_blank" rel="noopener" style="color: var(--warm-ink);">Misskey</a>までご連絡ください。</p>
+    <p data-l="ko"><a href="https://github.com/f3liz-casa/yukari-rubi" target="_blank" rel="noopener" style="color: var(--warm-ink);">GitHub</a>에 이슈를 남기시거나, <a href="https://misskey.io/@nyanrus" target="_blank" rel="noopener" style="color: var(--warm-ink);">Misskey</a>로 연락해 주세요.</p>
   </div>
 
   <div class="foot">
