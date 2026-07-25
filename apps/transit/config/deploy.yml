@@ -1,0 +1,78 @@
+# Kamal config for transit.f3liz.casa — sukhi.f3liz.casa と同じ箱に、独立アプリとして相乗り。
+# sukhi-deploy の流儀に完全に合わせてある（Cloudflare Origin CA / 箱ローカルレジストリ / ssh rocky /
+# 箱上ビルド）。kamal-proxy が host ヘッダで振り分けるので sukhi(gateway) と共存する:
+#   sukhi.f3liz.casa   → sukhi の anubis→gateway
+#   transit.f3liz.casa → このコンテナ(:8080)
+#
+# ── 前提（sukhi と同じ）─────────────────────────────────────────────────────
+#   export DEPLOY_HOST=<箱の IP/hostname>            # sukhi と同じ箱
+#   Cloudflare DNS: A/CNAME `transit.f3liz.casa` → 箱（proxied/orange, sukhi と同じ）
+#   .kamal/secrets（gitignore）に TAGO_KEY / REGISTRY_PASSWORD / TLS_CERT / TLS_KEY
+#   config/tls/origin.crt, origin.key ← sukhi と同じ *.f3liz.casa Origin 証明書を流用
+#
+# ── ビルド＆デプロイ ───────────────────────────────────────────────────────
+# sukhi と同じく kamal は build しない。箱上でビルドして箱ローカル registry へ push:
+#   ./bin/build-on-box.sh v0        # rsync→箱で docker build→127.0.0.1:5000 へ push
+#   kamal deploy --skip-push        # 箱の image を web role に登録＋証明書 upload
+# 版を上げるとき（コード更新後）: 上の 2 コマンドを再実行。
+
+service: transit-f3liz
+image: transit-f3liz    # registry.server が前置されて 127.0.0.1:5000/transit-f3liz:<git-SHA>。build-on-box が :SHA も焼く。
+
+builder:
+  arch: arm64    # 箱は arm64（sukhi と同じ）。実ビルドは箱上、これは config 検証用。
+
+# 箱ローカル registry に相乗り（sukhi と同じ 127.0.0.1:5000, user は分けて transit… ではなく
+# sukhi を流用してよい。127.0.0.1 は docker が insecure 既定許可なので daemon 設定不要）。
+registry:
+  server: 127.0.0.1:5000
+  username: sukhi
+  password:
+    - REGISTRY_PASSWORD
+
+ssh:
+  user: rocky    # Rocky box。root ではない（sukhi と同じ）。
+
+servers:
+  web:
+    hosts:
+      - <%= ENV["DEPLOY_HOST"] %>
+    options:
+      hostname: transit
+      network-alias: transit
+      memory: 1g
+      cpus: "0.5"
+
+# TLS: Cloudflare Origin CA 証明書（*.f3liz.casa の1枚＝transit も covers）。Let's Encrypt でない。
+# CF は Full (Strict)。証明書は config/tls/ に置き .kamal/secrets で $(cat ...)（sukhi と同じ）。
+proxy:
+  ssl:
+    certificate_pem: TLS_CERT
+    private_key_pem: TLS_KEY
+  host: transit.f3liz.casa
+  app_port: 8080
+  healthcheck:
+    path: /status.json
+    interval: 10
+    timeout: 5
+
+env:
+  clear:
+    TAGO_DATA_DIR: /data
+    CITIES: busan
+    BUDGET: "500000"     # 운영계정 500000/日を上限に使う。focus+ローテーションで密に消費。
+    COVER: "0.95"
+    CONC: "14"           # 同時ポーリング数。FOCUS_K=120 を REFRESH~18s 内で1周する(pass=120*2.4/14≒20s)ため。≒6req/s→500k寄り。
+    FOCUS_K: "120"       # 集中する上位need路線数(窓)。120で500kをほぼ使い切る(広め)。精密優先なら小さく。
+    REFRESH: "18"        # 各routeの目標poll間隔(秒)。APIの更新周期に合わせ、速すぎる重複pollを避ける。
+    FOCUS_WINDOW: "1200" # 1つのfocus群に留まる秒数(20分)→need再計算で次群へローテーション。
+    CLOUD_CAP: "100000"  # SQLite保持/速度モデルが使う直近点数(頭打ち4000を撤廃)。
+    RECON_CAP: "30000"   # reconstruct(幾何)が使う直近点数。30k≒59ms・bias床で100kと同等・poll経路を塞がない。
+    LOOP_SLEEP: "1800"   # 予算到達/サービス外で終了→この秒休んで再開
+    WEB_PORT: "8080"
+  secret:
+    - TAGO_KEY
+
+# 生成データ(progress/corrected/daily.json)を箱の永続 volume に。再デプロイでも残る。
+volumes:
+  - "transit_data:/data"

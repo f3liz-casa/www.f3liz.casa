@@ -1,0 +1,11 @@
+{
+  "name": "tsubaki-f3liz-casa",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.80.0"
+  }
+}

@@ -1,0 +1,15 @@
+# イメージに焼くのは：スクリプト・busan/routes.jsonl・entrypoint だけ。
+# 生成データやデプロイ設定・秘密は入れない。
+.git
+.gitignore
+.kamal
+config
+README.md
+*.md
+progress
+corrected
+daily.json
+.tago_key
+collector.log
+dashboard.log
+node_modules

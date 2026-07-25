@@ -1,20 +1,13 @@
 {
-  "name": "www-f3liz-casa",
+  "name": "f3lizcasa-web",
   "private": true,
   "version": "0.1.0",
-  "type": "module",
+  "workspaces": [
+    "apps/www",
+    "apps/tsubaki"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "deploy": "vite build && wrangler deploy"
-  },
-  "dependencies": {
-    "preact": "^10.25.4"
-  },
-  "devDependencies": {
-    "@preact/preset-vite": "^2.10.5",
-    "vite": "^8.0.3",
-    "wrangler": "^4.80.0"
+    "deploy:www": "npm run deploy --workspace www-f3liz-casa",
+    "deploy:tsubaki": "npm run deploy --workspace tsubaki-f3liz-casa"
   }
 }

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Tsubaki — a toy Julia-like language hand-written in OCaml, compiled to WasmGC.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20120%20120%27%3E%3Cg%20fill%3D%27%23A62A28%27%3E%3Cellipse%20cx%3D%2760%27%20cy%3D%2740%27%20rx%3D%2718%27%20ry%3D%2725%27/%3E%3Cellipse%20cx%3D%2760%27%20cy%3D%2740%27%20rx%3D%2718%27%20ry%3D%2725%27%20transform%3D%27rotate%2872%2060%2060%29%27/%3E%3Cellipse%20cx%3D%2760%27%20cy%3D%2740%27%20rx%3D%2718%27%20ry%3D%2725%27%20transform%3D%27rotate%28144%2060%2060%29%27/%3E%3Cellipse%20cx%3D%2760%27%20cy%3D%2740%27%20rx%3D%2718%27%20ry%3D%2725%27%20transform%3D%27rotate%28216%2060%2060%29%27/%3E%3Cellipse%20cx%3D%2760%27%20cy%3D%2740%27%20rx%3D%2718%27%20ry%3D%2725%27%20transform%3D%27rotate%28288%2060%2060%29%27/%3E%3C/g%3E%3Ccircle%20cx%3D%2760%27%20cy%3D%2760%27%20r%3D%2710%27%20fill%3D%27%23E6B23A%27/%3E%3C/svg%3E">
+<title>Tsubaki — a toy Julia-like language in OCaml</title>
+<style>
+  :root {
+    --bg: #F5F1E8;
+    --ink: #1A1D1A;
+    --muted: #62655A;
+    --crimson: #A62A28;
+    --green: #2C5140;
+    --line: #E2DACB;
+    --code-bg: #EFE9DB;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, "Cascadia Code", "Roboto Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14160F;
+      --ink: #ECE7D6;
+      --muted: #9B9C8B;
+      --crimson: #E4635A;
+      --green: #63A282;
+      --line: #2B2E24;
+      --code-bg: #1B1E15;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #F5F1E8; --ink: #1A1D1A; --muted: #62655A; --crimson: #A62A28;
+    --green: #2C5140; --line: #E2DACB; --code-bg: #EFE9DB;
+  }
+  :root[data-theme="dark"] {
+    --bg: #14160F; --ink: #ECE7D6; --muted: #9B9C8B; --crimson: #E4635A;
+    --green: #63A282; --line: #2B2E24; --code-bg: #1B1E15;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---- hero ---- */
+  .hero { padding: 88px 0 64px; display: flex; gap: 40px; align-items: center; }
+  .bloom { flex: 0 0 auto; width: 132px; height: 132px; }
+  .bloom svg { width: 100%; height: 100%; display: block;
+    transform-origin: 50% 55%; animation: open .8s cubic-bezier(.2,.8,.25,1) both; }
+  @keyframes open { from { transform: scale(.72) rotate(-8deg); opacity: 0; } to { transform: none; opacity: 1; } }
+
+  .name { font-size: clamp(52px, 12vw, 88px); font-weight: 800; letter-spacing: -.03em;
+    line-height: .95; margin: 0; }
+  .kana { display: block; font-size: 15px; font-weight: 500; letter-spacing: .5em;
+    color: var(--crimson); margin: 14px 0 0 4px; }
+  .tagline { font-size: clamp(17px, 2.6vw, 20px); color: var(--muted); margin: 18px 0 0;
+    max-width: 42ch; }
+  .cta { display: flex; gap: 12px; margin-top: 26px; flex-wrap: wrap; }
+  .btn { font: inherit; font-weight: 600; font-size: 15px; text-decoration: none;
+    padding: 10px 18px; border-radius: 2px; border: 1.5px solid var(--ink); color: var(--bg);
+    background: var(--ink); transition: transform .12s ease, background .12s ease; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.soon { border-color: var(--line); color: var(--muted); cursor: default; }
+  .btn.soon:hover { transform: none; }
+
+  /* ---- sections ---- */
+  section { padding: 40px 0; border-top: 1px solid var(--line); }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--crimson); margin: 0 0 20px; }
+  h2 { font-size: 24px; font-weight: 700; letter-spacing: -.01em; margin: 0 0 14px; }
+  p { margin: 0 0 14px; }
+  .lede { font-size: 18px; }
+
+  .feat { display: grid; gap: 22px; }
+  @media (min-width: 620px) { .feat { grid-template-columns: 1fr 1fr; gap: 28px 40px; } }
+  .feat h3 { font-size: 16px; margin: 0 0 5px; display: flex; align-items: baseline; gap: 8px; }
+  .feat h3 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--crimson);
+    flex: 0 0 auto; transform: translateY(-1px); }
+  .feat p { font-size: 15px; color: var(--muted); margin: 0; }
+
+  pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 3px;
+    padding: 18px 20px; overflow-x: auto; margin: 0; }
+  code { font-family: var(--mono); font-size: 13.5px; line-height: 1.7; }
+  .k { color: var(--crimson); }
+  .t { color: var(--green); font-weight: 600; }
+  .c { color: var(--muted); font-style: italic; }
+
+  .name-story p { max-width: 54ch; }
+  .name-story .why { color: var(--ink); }
+  em.leaf { color: var(--green); font-style: normal; font-weight: 600; }
+  em.flo { color: var(--crimson); font-style: normal; font-weight: 600; }
+
+  footer { border-top: 1px solid var(--line); padding: 36px 0 72px; color: var(--muted);
+    font-size: 14px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  footer a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+  footer a:hover { border-color: var(--crimson); }
+
+  @media (max-width: 560px) {
+    .hero { flex-direction: column; align-items: flex-start; gap: 24px; padding-top: 56px; }
+    .bloom { width: 104px; height: 104px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bloom svg { animation: none; }
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="bloom" aria-hidden="true">
+      <svg viewBox="0 0 120 120">
+        <!-- two leaves behind -->
+        <g fill="var(--green)" opacity=".9">
+          <path d="M60 96 C40 92 26 74 30 54 C50 58 66 74 60 96 Z"/>
+          <path d="M60 96 C80 92 94 74 90 54 C70 58 54 74 60 96 Z"/>
+        </g>
+        <!-- five camellia petals -->
+        <g fill="var(--crimson)">
+          <g><ellipse cx="60" cy="40" rx="18" ry="25"/></g>
+          <g transform="rotate(72 60 60)"><ellipse cx="60" cy="40" rx="18" ry="25"/></g>
+          <g transform="rotate(144 60 60)"><ellipse cx="60" cy="40" rx="18" ry="25"/></g>
+          <g transform="rotate(216 60 60)"><ellipse cx="60" cy="40" rx="18" ry="25"/></g>
+          <g transform="rotate(288 60 60)"><ellipse cx="60" cy="40" rx="18" ry="25"/></g>
+        </g>
+        <!-- inner petals, darker -->
+        <g fill="var(--crimson)" opacity=".72">
+          <g transform="rotate(36 60 60)"><ellipse cx="60" cy="49" rx="11" ry="15"/></g>
+          <g transform="rotate(108 60 60)"><ellipse cx="60" cy="49" rx="11" ry="15"/></g>
+          <g transform="rotate(180 60 60)"><ellipse cx="60" cy="49" rx="11" ry="15"/></g>
+          <g transform="rotate(252 60 60)"><ellipse cx="60" cy="49" rx="11" ry="15"/></g>
+          <g transform="rotate(324 60 60)"><ellipse cx="60" cy="49" rx="11" ry="15"/></g>
+        </g>
+        <!-- golden stamens -->
+        <circle cx="60" cy="60" r="9" fill="#E6B23A"/>
+        <g fill="#C98A1E">
+          <circle cx="60" cy="53" r="2"/><circle cx="66" cy="57" r="2"/>
+          <circle cx="64" cy="64" r="2"/><circle cx="56" cy="64" r="2"/>
+          <circle cx="54" cy="57" r="2"/><circle cx="60" cy="60" r="2"/>
+        </g>
+      </svg>
+    </div>
+    <div>
+      <h1 class="name">Tsubaki<span class="kana">つ ば き</span></h1>
+      <p class="tagline">A toy Julia-like language, hand-written in OCaml and compiled to real WebAssembly.</p>
+      <div class="cta">
+        <a class="btn" href="https://github.com/nyanrus/tsubaki">View on GitHub →</a>
+        <span class="btn soon">Live demo · soon</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <p class="eyebrow">What it is</p>
+    <p class="lede">A single hand-written interpreter that covers a surprising amount of Julia's real
+      semantics — then compiles to real WasmGC, calls a Rust numeric kernel across the wasm boundary,
+      and can turn its own quoted code into GPU shaders.</p>
+    <div class="feat">
+      <div>
+        <h3><span class="dot"></span>Multiple dispatch</h3>
+        <p>Julia's actual algorithm: an abstract-type hierarchy up to <code>Any</code>, most-specific
+          method wins, and a real ambiguity error on a tie.</p>
+      </div>
+      <div>
+        <h3><span class="dot"></span>Macros with real hygiene</h3>
+        <p><code>quote</code> / <code>$</code>, <code>gensym</code>, <code>esc</code> — a macro's own
+          temporaries genuinely can't collide with yours.</p>
+      </div>
+      <div>
+        <h3><span class="dot"></span>LinearAlgebra, via Rust/faer</h3>
+        <p><code>lu</code> / <code>qr</code> / <code>svd</code> / <code>eigen</code> and friends — no
+          BLAS, no C, computed across the wasm module boundary.</p>
+      </div>
+      <div>
+        <h3><span class="dot"></span>Shaders from source</h3>
+        <p><code>to_wgsl</code> / <code>to_glsl</code> compile a quoted block into real WGSL/GLSL that
+          runs on WebGPU or WebGL2 — driven from Tsubaki itself.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">A taste</p>
+    <pre><code><span class="k">abstract type</span> Shape <span class="k">end</span>
+
+<span class="k">struct</span> <span class="t">Circle</span> <: Shape
+    r::Float
+<span class="k">end</span>
+<span class="k">struct</span> <span class="t">Square</span> <: Shape
+    side::Float
+<span class="k">end</span>
+
+area(c::<span class="t">Circle</span>) = pi * c.r * c.r      <span class="c"># one method...</span>
+area(s::<span class="t">Square</span>) = s.side * s.side     <span class="c"># ...per shape</span>
+
+shapes = [<span class="t">Circle</span>(1.0), <span class="t">Square</span>(2.0)]
+println(sum([area(s) <span class="k">for</span> s <span class="k">in</span> shapes]))   <span class="c"># 7.14159...</span></code></pre>
+  </section>
+
+  <section>
+    <p class="eyebrow">Honest about it</p>
+    <p class="lede">Tsubaki is a toy, and says so.</p>
+    <p>It exists to answer one question honestly: how much of Julia's real semantics can a small,
+      hand-written interpreter cover — and how does building that in OCaml compare to building it in
+      JavaScript? (Short version: OCaml's exhaustiveness checking catches every unhandled case at
+      compile time, by name; JavaScript's <code>switch</code> lets the same mistake surface later, at
+      runtime.) Everything in the README was verified by actually running it, not by reading the code.</p>
+  </section>
+
+  <section class="name-story">
+    <p class="eyebrow">The name</p>
+    <h2>A camel and a Julia, folded into a flower</h2>
+    <p class="why"><em>Tsubaki</em> (椿) is the Japanese name for the <em class="flo">camellia</em>.
+      And <em class="flo">camellia</em> quietly holds a <em class="leaf">camel</em> — OCaml's own
+      mascot — right next to <strong>Julia</strong>. The language's whole parentage, tucked inside a
+      winter flower. What blooms on the outside is just a plain, quiet thing.</p>
+  </section>
+
+  <footer>
+    <span>Built by nyanrus · assisted by Shiro · MIT licensed</span>
+    <a href="https://github.com/nyanrus/tsubaki">github.com/nyanrus/tsubaki</a>
+  </footer>
+</div>
+</body>
+</html>

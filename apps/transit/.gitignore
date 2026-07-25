@@ -1,0 +1,11 @@
+# 秘密・生成データはコミットしない
+.kamal/secrets
+config/tls
+.tago_key
+/data
+progress/
+corrected/
+daily.json
+collector.log
+dashboard.log
+node_modules/
